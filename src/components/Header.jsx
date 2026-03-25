@@ -9,8 +9,8 @@ const Header = ({ currentPage, onNavigate, region, onRegionChange }) => {
   ]
 
   const regions = [
-    { id: 'US', label: '美国出口', color: 'bg-blue-100 text-blue-700' },
-    { id: 'EU', label: '欧盟出口', color: 'bg-indigo-100 text-indigo-700' },
+    { id: 'US', label: '出口美国', color: 'bg-blue-100 text-blue-700' },
+    { id: 'EU', label: '出口欧盟', color: 'bg-indigo-100 text-indigo-700' },
   ]
 
   return (

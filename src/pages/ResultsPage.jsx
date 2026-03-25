@@ -14,7 +14,8 @@ import {
   Package,
   Truck,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  FileCheck
 } from 'lucide-react'
 
 const ResultsPage = ({ results, onBack, onGenerateDoc }) => {
@@ -86,8 +87,10 @@ const ResultsPage = ({ results, onBack, onGenerateDoc }) => {
     switch(type) {
       case 'STOP': return <XCircle className="w-5 h-5 text-red-500" />
       case 'LICENSE': return <FileText className="w-5 h-5 text-blue-500" />
-      case 'DUE_DILIGENCE': return <Shield className="w-5 h-5 text-green-500" />
-      case 'TECH_REVIEW': return <Package className="w-5 h-5 text-purple-500" />
+      case 'FCC_CERT': return <FileCheck className="w-5 h-5 text-purple-500" />
+      case 'FDA_REG': return <FileCheck className="w-5 h-5 text-green-500" />
+      case 'HS_CODE': return <Package className="w-5 h-5 text-orange-500" />
+      case 'CBP_FILING': return <FileText className="w-5 h-5 text-cyan-500" />
       case 'DOCUMENTATION': return <FileText className="w-5 h-5 text-gray-500" />
       case 'CONSULTATION': return <Building className="w-5 h-5 text-orange-500" />
       default: return <Clock className="w-5 h-5 text-blue-500" />
@@ -104,6 +107,26 @@ const ResultsPage = ({ results, onBack, onGenerateDoc }) => {
     return `px-2 py-1 text-xs rounded border ${badges[priority] || badges['LOW']}`
   }
 
+  const getCountryName = (code) => {
+    const countries = {
+      'CN': '中国', 'HK': '香港', 'TW': '台湾', 'JP': '日本',
+      'KR': '韩国', 'VN': '越南', 'IN': '印度', 'MX': '墨西哥',
+      'CA': '加拿大', 'DE': '德国', 'FR': '法国', 'UK': '英国',
+      'AU': '澳大利亚', 'KP': '朝鲜', 'IR': '伊朗', 'SY': '叙利亚', 'CU': '古巴'
+    }
+    return countries[code] || code || '未知'
+  }
+
+  const getCategoryName = (code) => {
+    const categories = {
+      'electronics': '电子产品', 'machinery': '机械设备', 'textile': '纺织品',
+      'food': '食品', 'medical': '医疗设备', 'cosmetic': '化妆品',
+      'chemical': '化学品', 'toy': '玩具', 'automobile': '汽车配件',
+      'telecom': '通信设备', 'other': '其他'
+    }
+    return categories[code] || code || '未知'
+  }
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
       {/* Header */}
@@ -115,6 +138,14 @@ const ResultsPage = ({ results, onBack, onGenerateDoc }) => {
           <ArrowLeft className="w-5 h-5 mr-2" />
           返回首页
         </button>
+      </div>
+
+      {/* US Export Badge */}
+      <div className="flex items-center justify-center mb-4">
+        <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full">
+          <Globe className="w-4 h-4 mr-2" />
+          <span className="text-sm font-medium">出口美国合规检测报告</span>
+        </div>
       </div>
 
       {/* Verdict Card */}
@@ -141,20 +172,20 @@ const ResultsPage = ({ results, onBack, onGenerateDoc }) => {
 
       {/* Transaction Summary */}
       <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">交易信息摘要</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">出口交易信息摘要</h3>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="flex items-center p-4 bg-gray-50 rounded-xl">
             <Building className="w-10 h-10 text-blue-600 mr-3" />
             <div>
-              <p className="text-xs text-gray-500">企业</p>
+              <p className="text-xs text-gray-500">出口企业</p>
               <p className="font-medium text-gray-900 truncate">{results.formData.companyName || '未填写'}</p>
             </div>
           </div>
           <div className="flex items-center p-4 bg-gray-50 rounded-xl">
             <Globe className="w-10 h-10 text-green-600 mr-3" />
             <div>
-              <p className="text-xs text-gray-500">买家</p>
-              <p className="font-medium text-gray-900 truncate">{results.formData.buyerName || '未填写'}</p>
+              <p className="text-xs text-gray-500">原产国</p>
+              <p className="font-medium text-gray-900 truncate">{getCountryName(results.formData.originCountry)}</p>
             </div>
           </div>
           <div className="flex items-center p-4 bg-gray-50 rounded-xl">
@@ -165,11 +196,26 @@ const ResultsPage = ({ results, onBack, onGenerateDoc }) => {
             </div>
           </div>
           <div className="flex items-center p-4 bg-gray-50 rounded-xl">
-            <Truck className="w-10 h-10 text-orange-600 mr-3" />
+            <FileCheck className="w-10 h-10 text-orange-600 mr-3" />
             <div>
-              <p className="text-xs text-gray-500">目的地</p>
-              <p className="font-medium text-gray-900 truncate">{results.formData.destination || '未填写'}</p>
+              <p className="text-xs text-gray-500">产品类别</p>
+              <p className="font-medium text-gray-900 truncate">{getCategoryName(results.formData.productCategory)}</p>
             </div>
+          </div>
+        </div>
+        
+        <div className="grid md:grid-cols-3 gap-4 mt-4">
+          <div className="p-3 bg-blue-50 rounded-lg">
+            <span className="text-xs text-gray-500">HS编码：</span>
+            <span className="ml-2 font-medium text-gray-900">{results.formData.hsCode || '未填写'}</span>
+          </div>
+          <div className="p-3 bg-blue-50 rounded-lg">
+            <span className="text-xs text-gray-500">产品价值：</span>
+            <span className="ml-2 font-medium text-gray-900">${results.formData.productValue || '0'}</span>
+          </div>
+          <div className="p-3 bg-blue-50 rounded-lg">
+            <span className="text-xs text-gray-500">FCC认证：</span>
+            <span className="ml-2 font-medium text-gray-900">{results.formData.fccApproval ? '已获得' : '未获得'}</span>
           </div>
         </div>
       </div>
@@ -217,7 +263,7 @@ const ResultsPage = ({ results, onBack, onGenerateDoc }) => {
                   )}
                   {check.legalBasis.length > 0 && (
                     <div className="mt-4">
-                      <h4 className="text-sm font-semibold text-gray-900 mb-2">法规依据:</h4>
+                      <h4 className="text-sm font-semibold text-gray-900 mb-2">美国法规依据:</h4>
                       <ul className="space-y-1">
                         {check.legalBasis.map((law, i) => (
                           <li key={i} className="text-sm text-gray-600 italic">
@@ -237,7 +283,7 @@ const ResultsPage = ({ results, onBack, onGenerateDoc }) => {
       {/* Regulatory Basis */}
       {results.regulatoryBasis.length > 0 && (
         <div className="bg-blue-50 rounded-2xl p-6 mb-8">
-          <h3 className="text-lg font-semibold text-blue-900 mb-4">适用法规</h3>
+          <h3 className="text-lg font-semibold text-blue-900 mb-4">适用美国法规</h3>
           <div className="flex flex-wrap gap-2">
             {[...new Set(results.regulatoryBasis)].map((law, index) => (
               <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
@@ -264,14 +310,21 @@ const ResultsPage = ({ results, onBack, onGenerateDoc }) => {
               <p className="text-sm text-gray-600 mb-2">{action.description}</p>
               <p className="text-xs text-gray-500">
                 <Clock className="w-3 h-3 inline mr-1" />
-                建议时间: {action.deadline}
-                {action.template && (
-                  <span className="ml-2 text-blue-600">[{action.template}]</span>
-                )}
+                {action.deadline}
               </p>
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Legal Notice */}
+      <div className="bg-amber-50 rounded-2xl p-6 mb-8">
+        <h3 className="text-lg font-semibold text-amber-900 mb-2">法律免责声明</h3>
+        <p className="text-sm text-amber-700">
+          本检测结果仅供参考，不能替代专业法律意见。美国的进口法规复杂且经常更新，
+          具体的进口许可要求和限制措施可能因产品、原产国等因素而异。
+          在进行任何出口交易前，请务必咨询具有美国贸易法规经验的专业律师或顾问。
+        </p>
       </div>
 
       {/* Action Buttons */}

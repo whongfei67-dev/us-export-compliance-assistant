@@ -1,5 +1,5 @@
 import React from 'react'
-import { ArrowRight, Shield, FileCheck, Clock, AlertCircle, Flag, Globe, Building, FileText } from 'lucide-react'
+import { ArrowRight, Shield, FileCheck, Clock, AlertCircle, Flag, Globe } from 'lucide-react'
 
 const HomePage = ({ onStartCheck, region = 'US' }) => {
   const isEU = region === 'EU'
@@ -33,13 +33,13 @@ const HomePage = ({ onStartCheck, region = 'US' }) => {
     {
       icon: Shield,
       title: '智能合规判断',
-      description: '基于美国商务部、财政部OFAC等机构的最新法规，快速判断进出口合规性',
+      description: '基于美国商务部 BIS、财政部 OFAC 等机构的最新法规，快速判断出口合规性',
       color: 'bg-blue-500'
     },
     {
       icon: FileCheck,
       title: '许可申请辅助',
-      description: '自动生成许可证申请模板和情况说明文档，简化复杂申请流程',
+      description: '自动生成出口许可申请模板和情况说明文档，简化复杂申请流程',
       color: 'bg-green-500'
     },
     {
@@ -62,7 +62,7 @@ const HomePage = ({ onStartCheck, region = 'US' }) => {
     { label: 'CNL编码库', value: '5,000+' },
     { label: '年均检测量', value: '30,000+' },
   ] : [
-    { label: '支持国家/地区', value: '180+' },
+    { label: '支持目的地', value: '180+' },
     { label: '管制清单覆盖', value: '99.5%' },
     { label: 'ECCN编码库', value: '10,000+' },
     { label: '年均检测量', value: '50,000+' },
@@ -86,16 +86,16 @@ const HomePage = ({ onStartCheck, region = 'US' }) => {
           <div className="text-center">
             <div className={`inline-flex items-center px-4 py-2 rounded-full ${accentColor} mb-4`}>
               {isEU ? <Flag className="w-4 h-4 mr-2" /> : <Globe className="w-4 h-4 mr-2" />}
-              <span className="text-sm font-medium">{isEU ? '欧盟出口合规检测系统' : '美国出口合规检测系统'}</span>
+              <span className="text-sm font-medium">{isEU ? '出口欧盟合规检测系统' : '出口美国合规检测系统'}</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              {isEU ? '出口到欧盟产品' : '进口美国产品'}合规决策
+              {isEU ? '出口到欧盟产品' : '出口到美国产品'}合规决策
               <span className="block text-yellow-300">智能辅助系统</span>
             </h1>
             <p className="text-xl text-white/90 max-w-3xl mx-auto mb-10">
               {isEU 
                 ? '输入您的企业信息、买家信息和产品信息，系统将基于欧盟双重用途物品出口管制条例 (EU) 2021/821，为您提供专业的合规判断和风险评估报告'
-                : '输入您的企业信息、买家信息和产品信息，系统将基于美国出口管制法规 (EAR) 和 OFAC 制裁法规，为您提供专业的合规判断和风险评估报告'
+                : '输入您的企业信息、买家信息和产品信息，系统将基于美国出口管制法规 (EAR) 和 OFAC 制裁法规，帮助您判断产品是否可以顺利出口到美国'
               }
             </p>
             <button
@@ -131,7 +131,7 @@ const HomePage = ({ onStartCheck, region = 'US' }) => {
             <p className="text-gray-600 max-w-2xl mx-auto">
               {isEU 
                 ? '专为欧盟出口企业设计的智能合规解决方案，让复杂的欧盟双重用途出口管制法规变得简单易懂'
-                : '专为进出口企业设计的智能合规解决方案，让复杂的美国出口管制法规变得简单易懂'
+                : '专为出口企业设计的智能合规解决方案，让复杂的美国出口管制法规变得简单易懂'
               }
             </p>
           </div>
@@ -161,13 +161,13 @@ const HomePage = ({ onStartCheck, region = 'US' }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">检测流程</h2>
-            <p className="text-gray-600">{isEU ? '三步完成欧盟出口合规检测' : '三步完成美国出口合规检测'}</p>
+            <p className="text-gray-600">{isEU ? '三步完成欧盟出口合规检测' : '三步完成出口美国合规检测'}</p>
           </div>
           
           <div className="flex flex-col md:flex-row items-center justify-between space-y-8 md:space-y-0">
             {[
-              { step: 1, title: '输入信息', desc: '填写企业、买家、产品信息' },
-              { step: 2, title: '智能分析', desc: '系统自动匹配CNL/ECCN和风险评估' },
+              { step: 1, title: '输入信息', desc: '填写企业、美国买家、产品信息' },
+              { step: 2, title: '智能分析', desc: '系统自动匹配ECCN和风险评估' },
               { step: 3, title: '获取报告', desc: '查看合规结果和行动建议' },
             ].map((item, index) => (
               <div key={index} className="flex items-center">
@@ -191,7 +191,7 @@ const HomePage = ({ onStartCheck, region = 'US' }) => {
       <section className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className={`bg-gradient-to-r ${heroGradient} rounded-3xl p-12 text-white`}>
-            <h2 className="text-3xl font-bold mb-4">{isEU ? '准备开始欧盟合规检测？' : '准备开始合规检测？'}</h2>
+            <h2 className="text-3xl font-bold mb-4">{isEU ? '准备开始欧盟出口合规检测？' : '准备开始出口美国合规检测？'}</h2>
             <p className="text-white/90 mb-8 max-w-2xl mx-auto">
               只需3分钟，系统将帮助您识别潜在的合规风险，并提供专业的应对建议
             </p>

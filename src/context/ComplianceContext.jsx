@@ -11,14 +11,41 @@ export const useCompliance = () => {
 }
 
 export const ComplianceProvider = ({ children }) => {
+  // 美国出口表单数据
   const [formData, setFormData] = useState({
     // 企业信息
     companyName: '',
     companyLocation: '',
     companyType: '',
-    memberState: '', // 欧盟成员国
 
-    // 买家信息
+    // 原产国和买方信息
+    originCountry: '',
+    buyerName: '',
+    buyerType: '',
+
+    // 产品信息
+    productName: '',
+    productCategory: '',
+    hsCode: '',
+    productValue: '',
+    fccApproval: false,
+    fdaApproval: false,
+
+    // 文件和认证
+    hasCertificate: false,
+    hasCommercialInvoice: false,
+    hasTestReport: false,
+  })
+
+  // 欧盟出口表单数据
+  const [euFormData, setEuFormData] = useState({
+    // 出口商信息
+    exporterName: '',
+    exporterAddress: '',
+    memberState: '',
+    eoriNumber: '',
+
+    // 买方信息
     buyerName: '',
     buyerCountry: '',
     buyerType: '',
@@ -27,38 +54,17 @@ export const ComplianceProvider = ({ children }) => {
     // 产品信息
     productName: '',
     productCategory: '',
-    eccnCode: '',
-    cnlCode: '', // 欧盟管制清单编码
-    techPercentage: '',
+    cnlCode: '',
     value: '',
-    hasUSTechnology: false,
-    hasTechTransfer: false,
     techDescription: '',
     dualUse: false,
-
-    // 运输信息
-    destination: '',
-    transportRoute: '',
+    hasTechTransfer: false,
 
     // 最终用途
     endUse: '',
     endUserCertificate: false,
-  })
 
-  const [euFormData, setEuFormData] = useState({
-    // 欧盟专用字段
-    exporterCountry: '',
-    memberState: '',
-    buyerCountry: '',
-    buyerType: '',
-    productCategory: '',
-    cnlCode: '',
-    dualUse: false,
-    hasTechTransfer: false,
-    techDescription: '',
-    endUse: '',
-    endUserCertificate: false,
-    destination: '',
+    // 运输
     transportRoute: '',
   })
 
