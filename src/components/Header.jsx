@@ -1,7 +1,7 @@
 import React from 'react'
-import { Shield, CheckCircle, FileText, AlertTriangle, Building, Globe, Package, Flag } from 'lucide-react'
+import { Shield, CheckCircle, FileText, AlertTriangle, Building, Globe, Package, Flag, ArrowDownToLine, ArrowUpFromLine } from 'lucide-react'
 
-const Header = ({ currentPage, onNavigate, region, onRegionChange }) => {
+const Header = ({ currentPage, onNavigate, region, direction, onRegionChange, onDirectionChange }) => {
   const navItems = [
     { id: 'home', label: '首页', icon: Shield },
     { id: 'check', label: '合规检测', icon: CheckCircle },
@@ -9,8 +9,13 @@ const Header = ({ currentPage, onNavigate, region, onRegionChange }) => {
   ]
 
   const regions = [
-    { id: 'US', label: '出口美国', color: 'bg-blue-100 text-blue-700' },
-    { id: 'EU', label: '出口欧盟', color: 'bg-indigo-100 text-indigo-700' },
+    { id: 'US', label: '美国', color: 'bg-blue-100 text-blue-700' },
+    { id: 'EU', label: '欧盟', color: 'bg-indigo-100 text-indigo-700' },
+  ]
+
+  const directions = [
+    { id: 'export', label: '出口', icon: ArrowUpFromLine },
+    { id: 'import', label: '进口', icon: ArrowDownToLine },
   ]
 
   return (
@@ -27,8 +32,29 @@ const Header = ({ currentPage, onNavigate, region, onRegionChange }) => {
             </div>
           </div>
 
-          {/* Region Selector */}
+          {/* Direction Selector */}
           <div className="flex items-center space-x-2 mr-4">
+            <Globe className="w-4 h-4 text-gray-400" />
+            <div className="flex bg-gray-100 rounded-lg p-1">
+              {directions.map((d) => {
+                const DirIcon = d.icon
+                return (
+                  <button
+                    key={d.id}
+                    onClick={() => onDirectionChange(d.id)}
+                    className={`flex items-center space-x-1 px-3 py-1 text-xs font-medium rounded-md transition-all ${
+                      direction === d.id
+                        ? region === 'EU' ? 'bg-indigo-100 text-indigo-700' : 'bg-blue-100 text-blue-700'
+                        : 'text-gray-500 hover:text-gray-700'
+                    }`}
+                  >
+                    <DirIcon className="w-3 h-3" />
+                    <span>{d.label}</span>
+                  </button>
+                )
+              })}
+            </div>
+            <span className="text-gray-300">|</span>
             <Flag className="w-4 h-4 text-gray-400" />
             <div className="flex bg-gray-100 rounded-lg p-1">
               {regions.map((r) => (
